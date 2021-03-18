@@ -1,0 +1,18 @@
+# 9.xx.xx /10.xx.xx/11.xx.xx 具体版本号https://www.eclipse.org/jetty/download.php查看
+# This version number need maintenance usually
+jetty_version: "9" 
+jetty_release: "{{jetty_metadata[jetty_version].release}}"
+jetty_home: "{{jetty_metadata[jetty_version].release}}"
+jetty_url: https://repo1.maven.org/maven2/org/eclipse/jetty/{{jetty_home}}/{{jetty_release}}/{{jetty_home}}-{{jetty_release}}.tar.gz  
+
+#jetty version manage by tomcat update
+jetty_metadata: 
+  "9":
+    release: "9.4.38.v20210224"
+    home: "jetty-distribution"
+  "10":
+    release: "10.0.1"
+    home: "jetty-home"
+  "11":
+    release: "11.0.1"
+    home: "jetty-home"

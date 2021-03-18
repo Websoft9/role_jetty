@@ -5,13 +5,7 @@ This role is for you to install **Docker**, **Docker-Compose** and **some popula
 
 The applications includes:
 
-* adminMongo - GUI tool for MongoDB
-* Adminer - GUI tools for major DB
-* Mongo-Express - GUI tool for MongoDB
-* OnlyOffice Document Server - Office view and edit online middleware
 * phpMyAdmin - GUI tool for MySQL
-* phpPgAdmin - GUI tool for PostgreSQL
-* Portainer - GUI tool for Docker
 
 If you want this role to support more applications, you can [**submit Issues**](https://github.com/websoft9dev/role_docker/issues/new/choose) for us.
 
@@ -22,7 +16,7 @@ Make sure these requirements need before the installation:
 | **Items**      | **Details** |
 | ------------------| ------------------|
 | Operating system | CentOS7.x Ubuntu18.04 |
-| Python version | Python2  |
+| JDK version | JDK7 JDK8 JDK11  |
 | Python components |  requests, docker-compose  |
 | Runtime | No |
 
