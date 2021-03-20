@@ -23,19 +23,29 @@
     state: absent
 
 - name: copy files
-  shell : mv /opt/jetty*/  /opt/jetty
+  shell : mv /usr/local/jetty*/  /usr/local/jetty
 
-- name: Create jetty run directory
+- name: Create jetty app directory
   file:
-    path: /opt/jetty/run
+    path: /data/wwwroot/jetty
     state: directory
     owner: jetty
     group: jetty
 
-- name: set config file
-  copy :
-      src: jetty.conf
-      dest: /etc/default/jetty.conf
+- name: Copy Demo
+  shell : cp -rf /usr/local/jetty/demo-base/*  /data/wwwroot/jetty
+
+- name: Enable remote
+  lineinfile:
+    path: /data/wwwroot/jetty/start.d/http.ini
+    regexp: '# jetty.http.host=0.0.0.0'
+    line: 'jetty.http.host=0.0.0.0'
+
+- name: Edit http_port 8090
+  lineinfile:
+    path: /data/wwwroot/jetty/start.d/http.ini
+    regexp: '# jetty.http.port=8080'
+    line: 'jetty.http.port={{jetty_port}}}'
 
 - name: Setting jetty service
   copy:
@@ -48,26 +58,20 @@
     state: started
     enabled: yes
 
-- name: copy web files
-  shell : cp -r /opt/jetty/demo-base/webapps/ROOT /opt/jetty/webapps
-
-- name: copy indexpage
-  copy:
-    src: index.html
-    dest: /opt/jetty/webapps/index.html
-
-# set soft link, -b cover the exist links
-# ln -sb src des
-# - name: set soft link
-#   shell: |
-#     ln -sb /opt/jetty  /data/wwwroot/jetty
-#     ln -sb /opt/jetty/config /data/config/jetty
+- name: Create a symbolic link
+  file:
+    src: '{{item.src}}'
+    dest: '{{item.dest}}'
+    state: link
+  with_items:
+    - {src: "/data/wwwroot/jetty/start.d",dest: "/data/config/jetty"}
+    - {src: "{{docker_apps_dir}}/{{docker_appname}}",dest: "/data/wwwroot/{{docker_appname}}"}
 
 # Check version,
 # must use sudo sh -c to solve the no-root permission
 - block:
   - name: Check Jetty Version
-    shell: sudo sh -c "head -n 1 /opt/jetty/VERSION.txt > /data/logs/install_version.txt"
+    shell: sudo sh -c "head -n 1 /usr/local/jetty/VERSION.txt > /data/logs/install_version.txt"
 
 # check service state
 - name: Check Jetty Service

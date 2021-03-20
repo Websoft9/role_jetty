@@ -1,0 +1,19 @@
+[Unit]
+Description=Jetty applicaion service
+Documentation=https://www.eclipse.org/jetty/
+After=syslog.target
+After=network.target
+
+[Service]
+User=jetty
+Group=jetty
+Type=simple
+WorkingDirectory=/data/wwwroot/jetty
+ExecStart=/usr/bin/java -jar start.jar
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=jetty
+
+[Install]
+WantedBy=multi-user.target
